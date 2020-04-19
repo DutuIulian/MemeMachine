@@ -6,6 +6,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
 
 CERT_FILE = "server.cert"
+
 KEY_FILE = "server.key"
 
 class CertificateFactory:
