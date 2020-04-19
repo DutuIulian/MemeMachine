@@ -1,6 +1,4 @@
-package com.example.memesclient;
-
-import android.util.Log;
+package mememachine;
 
 public class CommunicationUtils {
     static class DataOffset {
@@ -21,10 +19,22 @@ public class CommunicationUtils {
         }
     }
 
-    static DataOffset parseLengthValue(String data, int offset) {
-        data = data.substring(offset);
-        final int length = data.charAt(0) * 256 + data.charAt(1);
-        return new DataOffset(data.substring(2, length + 2), offset + length + 2);
+    static int convertSignedByte(byte b) {
+        int i = b;
+
+        if (i < 0) {
+            i += 256;
+        }
+
+        return i;
+    }
+
+    static DataOffset parseLengthValue(byte[] data, int offset) {
+        final int length = convertSignedByte(data[offset]) * 256
+                + convertSignedByte(data[offset + 1]);
+
+        return new DataOffset(new String(data, offset + 2, length),
+                offset + length + 2);
     }
 
     static String convertToLengthValueFormat(String data) {

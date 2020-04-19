@@ -1,4 +1,4 @@
-package com.example.memesclient;
+package mememachine;
 
 import android.content.Context;
 

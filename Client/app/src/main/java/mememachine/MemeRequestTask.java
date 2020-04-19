@@ -1,17 +1,17 @@
-package com.example.memesclient;
+package mememachine;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.example.memesclient.activities.MainActivity;
-
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.cert.CertificateException;
+
+import mememachine.activities.MainActivity;
 
 public class MemeRequestTask extends AsyncTask<Void, Void, Meme> {
     private final static int MAX_IMAGE_SIZE = 10 * 1024 * 1024;
@@ -65,11 +65,10 @@ public class MemeRequestTask extends AsyncTask<Void, Void, Meme> {
                 return null;
             }
 
-            String data = new String(buffer, 0, read, "UTF-8");
-            CommunicationUtils.DataOffset dataOffset = CommunicationUtils.parseLengthValue(data, 0);
-            path = dataOffset.getData();
-            int size = read - dataOffset.getEndOffset();
-            System.arraycopy(buffer, dataOffset.getEndOffset(), buffer, 0, size);
+            CommunicationUtils.DataOffset pathDataOffset = CommunicationUtils.parseLengthValue(buffer, 0);
+            path = pathDataOffset.getData();
+            int size = read - pathDataOffset.getEndOffset();
+            System.arraycopy(buffer, pathDataOffset.getEndOffset(), buffer, 0, size);
 
             while (true) {
                 read = inputStream.read(buffer, size, MAX_IMAGE_SIZE - size);

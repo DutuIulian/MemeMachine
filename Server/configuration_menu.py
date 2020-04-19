@@ -90,7 +90,7 @@ class ConfigurationMenu:
         self.timeout_variable = tkinter.StringVar()
         timeout_entry = tkinter.Entry(first_row_frame, textvariable=self.timeout_variable, width=5)
         timeout_entry.pack(padx=5, side=tkinter.LEFT, expand=True, fill=tkinter.BOTH)
-        first_row_frame.grid(row=0, column=0, pady=5, sticky=tkinter.W)
+        first_row_frame.grid(row=0, column=0, pady=(40, 5), sticky=tkinter.W)
 
         #
         second_row_frame = tkinter.Frame(main_frame)
@@ -239,7 +239,7 @@ class ConfigurationMenu:
             )
         else:
             self.configuration['SETTINGS']['password_hash'] = hashlib.sha256(password).hexdigest()
-            tkinter.messagebox.showwarning(
+            tkinter.messagebox.showinfo(
                 'Password',
                 'The password was changed'
             )

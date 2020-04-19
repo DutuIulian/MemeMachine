@@ -1,17 +1,12 @@
-package com.example.memesclient.activities;
+package mememachine.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.view.Gravity;
@@ -27,16 +22,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.memesclient.ConfigurationManager;
-import com.example.memesclient.Meme;
-import com.example.memesclient.MemeRequestTask;
-import com.example.memesclient.MoveRequestTask;
-import com.example.memesclient.R;
+import mememachine.ConfigurationManager;
+import mememachine.Meme;
+import mememachine.MemeRequestTask;
+import mememachine.MoveRequestTask;
+import mememachine.R;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -213,6 +204,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         builder.show();
+    }
+
+    public void displayPath(String path)  {
+        TextView textView = findViewById(R.id.textViewId);
+        textView.setText(path);
+        memes.get(memes.size() - 1).setPath(path);
     }
 
     public void taskFinished() {

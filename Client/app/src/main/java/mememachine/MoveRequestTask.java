@@ -1,9 +1,9 @@
-package com.example.memesclient;
+package mememachine;
 
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.example.memesclient.activities.MainActivity;
+import mememachine.activities.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -65,11 +65,12 @@ public class MoveRequestTask extends AsyncTask<Void, Void, String> {
                 return "Wrong password";
             }
 
-            if (response.equals("OK")) {
+            if (response.equals("NOK")) {
+                return "Could not move file";
+            } else {
+                mainActivity.displayPath(response);
                 return "File moved";
             }
-
-            return "Could not move file";
         } catch (UnknownHostException e) {
             return "Unknown host";
         } catch (CertificateException e) {

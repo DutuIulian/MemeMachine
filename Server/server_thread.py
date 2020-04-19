@@ -70,10 +70,10 @@ class ServerThread(Thread):
                 else:
                     source, offset = ServerThread.parse_length_value_string(data, offset)
                     destination, offset = ServerThread.parse_length_value_string(data, offset)
-                    success = file_manager.FileManager.move_file(source.decode("utf-8"),
-                                                                 destination.decode("utf-8"))
-                    if success:
-                        connection.send(b'OK')
+                    new_path = file_manager.FileManager.move_file(source.decode("utf-8"),
+                                                                  destination.decode("utf-8"))
+                    if new_path:
+                        connection.send(new_path.encode())
                         self.logger_function('Moved successfully')
                     else:
                         connection.send(b'NOK')

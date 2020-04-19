@@ -1,4 +1,4 @@
-package com.example.memesclient.activities;
+package mememachine.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,14 +12,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 
-import com.example.memesclient.ConfigurationManager;
-import com.example.memesclient.R;
+import mememachine.ConfigurationManager;
+import mememachine.R;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -95,41 +92,6 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    public void changePassword(View v) {
-        EditText passwordEditText = findViewById(R.id.passwordEditText);
-        String password = passwordEditText.getText().toString();
-
-        if (password.isEmpty()) {
-            Toast.makeText(this,
-                    "Password can not be empty",
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] bytes = digest.digest(password.getBytes("UTF-8"));
-            StringBuffer passwordHash = new StringBuffer();
-
-            for (int i = 0; i < bytes.length; i++) {
-                String hex = Integer.toHexString(0xff & bytes[i]);
-                if (hex.length() == 1) {
-                    passwordHash.append('0');
-                }
-                passwordHash.append(hex);
-            }
-
-            this.configurationManager.put("password_hash", passwordHash.toString());
-            Toast.makeText(this,
-                    "The password was set",
-                    Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Toast.makeText(this,
-                    "There was a problem saving the password",
-                    Toast.LENGTH_LONG).show();
-        }
-    }
-
     public void submit(View v) {
         String host = ((EditText) findViewById(R.id.hostEditText)).getText().toString();
         if (host.isEmpty()) {
@@ -161,7 +123,10 @@ public class SettingsActivity extends AppCompatActivity {
             return;
         }
 
-        if (configurationManager.get("password_hash") == null) {
+        EditText passwordEditText = findViewById(R.id.passwordEditText);
+        String password = passwordEditText.getText().toString();
+
+        if (configurationManager.get("password_hash") == null && password.isEmpty()) {
             Toast.makeText(this,
                     "Set a password",
                     Toast.LENGTH_LONG).show();
@@ -171,6 +136,28 @@ public class SettingsActivity extends AppCompatActivity {
         configurationManager.put("host", host);
         configurationManager.put("port", port);
         configurationManager.put("ssl", ssl ? "On" : "Off");
+
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            byte[] bytes = digest.digest(password.getBytes("UTF-8"));
+            StringBuffer passwordHash = new StringBuffer();
+
+            for (int i = 0; i < bytes.length; i++) {
+                String hex = Integer.toHexString(0xff & bytes[i]);
+                if (hex.length() == 1) {
+                    passwordHash.append('0');
+                }
+                passwordHash.append(hex);
+            }
+
+            this.configurationManager.put("password_hash", passwordHash.toString());
+        } catch (Exception e) {
+            Toast.makeText(this,
+                    "The password could not be changed",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
 
         try {
             configurationManager.dump();

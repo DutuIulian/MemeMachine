@@ -1,6 +1,4 @@
-package com.example.memesclient;
-
-import android.util.Log;
+package mememachine;
 
 import java.io.BufferedReader;
 import java.io.File;

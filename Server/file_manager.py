@@ -2,6 +2,7 @@ from pathlib import Path
 import random
 import os
 import shutil
+import ntpath
 
 class FileManager:
     def __init__(self):
@@ -42,6 +43,7 @@ class FileManager:
         try:
             Path(destination).mkdir(parents=True, exist_ok=True)
             shutil.move(source, destination)
-            return True
+            file_name = ntpath.basename(Path(source))
+            return os.path.join(os.path.abspath(destination), file_name)
         except:
-            return False
+            return None

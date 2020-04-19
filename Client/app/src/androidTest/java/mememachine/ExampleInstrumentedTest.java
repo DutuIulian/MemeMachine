@@ -1,4 +1,4 @@
-package com.example.memesclient;
+package mememachine;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.memesclient", appContext.getPackageName());
+        assertEquals("mememachine", appContext.getPackageName());
     }
 }

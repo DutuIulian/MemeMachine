@@ -1,4 +1,4 @@
-package com.example.memesclient;
+package mememachine;
 
 import android.graphics.Bitmap;
 
@@ -13,6 +13,10 @@ public class Meme {
 
     public String getPath() {
         return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Bitmap getBitmap() {
